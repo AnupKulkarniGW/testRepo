@@ -24,18 +24,19 @@ jobs:
           let missingSections = requiredSections.filter(section => !issueBody.includes(section));
 
           if (missingSections.length > 0) {
-            github.issues.createComment({
+            // Make sure to reference the github object correctly
+            await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
               body: `It seems the issue you opened is missing some key sections from our template: ${missingSections.join(", ")}. Please update your issue to include these sections. For more information, refer to our [issue template](https://guidewireconfluence.atlassian.net/wiki/x/SB4OC).`
             });
 
-            github.issues.update({
+            // Optionally close the issue
+            await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
               state: 'closed'
             });
           }
-
