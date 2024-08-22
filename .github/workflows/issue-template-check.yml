@@ -12,7 +12,20 @@ jobs:
       uses: actions/github-script@v6
       with:
         script: |
-          const issueBody = context.payload.issue.body.toLowerCase();
+          const issueBody = context.payload.issue.body;
+
+          if (!issueBody) {
+            // If the issue body is null or undefined, comment and exit
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: "It seems that the issue body is empty. Please follow the issue template guidelines and provide the necessary details."
+            });
+            return;
+          }
+
+          const lowerCaseBody = issueBody.toLowerCase();
           const requiredSections = [
             "describe the problem or question",
             "to reproduce",
@@ -21,10 +34,9 @@ jobs:
             "additional context"
           ];
 
-          let missingSections = requiredSections.filter(section => !issueBody.includes(section));
+          let missingSections = requiredSections.filter(section => !lowerCaseBody.includes(section));
 
           if (missingSections.length > 0) {
-            // Make sure to reference the github object correctly
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -32,7 +44,6 @@ jobs:
               body: `It seems the issue you opened is missing some key sections from our template: ${missingSections.join(", ")}. Please update your issue to include these sections. For more information, refer to our [issue template](https://guidewireconfluence.atlassian.net/wiki/x/SB4OC).`
             });
 
-            // Optionally close the issue
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
