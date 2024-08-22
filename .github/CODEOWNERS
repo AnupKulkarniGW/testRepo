@@ -1,0 +1,9 @@
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence
+
+# Only listed below Guidewire team members can change and approve the CODEOWNERS.
+/.github/CODEOWNERS @JayPatelGW @HanhLamGW @jensenbrian @rtatavarthy @myronmeier @allen-iscs @patriciatruong @rams2020 @ben-olsen @miketranguidewire @ninali18 @amuvvala-gw
+
+# Only listed below Guidewire team members can approve the Code
+/custSTART/test-start/FitNesseRoot/ @JayPatelGW @HanhLamGW @jensenbrian @rtatavarthy @myronmeier @allen-iscs @patriciatruong @rams2020 @ben-olsen @miketranguidewire @ninali18 @amuvvala-gw
+/testIIC/FitNesseRoot/ @myronmeier @JayPatelGW @HanhLamGW @jensenbrian @rtatavarthy @allen-iscs @patriciatruong @rams2020 @ben-olsen @miketranguidewire @ninali18 @amuvvala-gw
